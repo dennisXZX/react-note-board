@@ -8,9 +8,10 @@ class Note extends Component {
         this.edit = this.edit.bind(this);        
         this.save = this.save.bind(this);        
 
+        // initialize the state from props
         this.state = {
-            id: this.props.id,
             editing: false,
+            id: this.props.id,
             text: this.props.initialText
         }
     }
@@ -20,11 +21,12 @@ class Note extends Component {
     }
 
     save() {
-        let newText = this.refs.newText.value;
+        let newText = this.refs.newText.value;  // retrieve the value from textarea
         this.setState({text: newText})
         this.setState({editing: false});
     }
 
+    // display a form when editing: true
     renderForm() {
         return (
             <div className="note">
@@ -34,7 +36,9 @@ class Note extends Component {
         )
     }
 
+    // display a note when editing: false
     renderNote() {
+        // deconstructing assignment
         const { id, removeNote } = this.props;
         return (
             <div className="note">
