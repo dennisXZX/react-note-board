@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 
 class Note extends Component {
     constructor(props) {
@@ -17,7 +18,7 @@ class Note extends Component {
     }
 
     edit() {
-        this.setState({editing: true});
+        this.setState({editing: true});     
     }
 
     save() {
@@ -30,8 +31,10 @@ class Note extends Component {
     renderForm() {
         return (
             <div className="note">
-                <textarea ref="newText"></textarea>
-                <button onClick={this.save}>SAVE</button>
+                <textarea ref="newText" autoFocus></textarea>
+                <span>
+                    <button onClick={this.save}>SAVE</button>
+                </span>    
             </div>
         )
     }
@@ -50,6 +53,10 @@ class Note extends Component {
             </div>
         );    
     }
+
+    // componentDidMount() {
+    //     this.refs.newText.focus();
+    // }
 
     render() {
         return (this.state.editing) ? this.renderForm()

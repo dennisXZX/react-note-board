@@ -1,5 +1,9 @@
 @import url(http://fonts.googleapis.com/css?family=Shadows+Into+Light);
 
+* {
+  /*border: 1px solid blue;*/
+}
+
 html,
 body,
 div.board,
@@ -58,8 +62,10 @@ div.note button {
 }
 
 div.note > textarea {
-  height: 75%;
+  width: 99%;
+  height: 70%;
   background: rgba(255, 255, 255, .5);
+  resize: none;
 }
 
 .board > button {

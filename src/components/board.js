@@ -11,7 +11,10 @@ class Board extends Component {
         // initilize an empty notes array
         // each time a user clicks add button, a new note is added to the array
         this.state = {
-            notes: []
+            notes: [{
+                id: this.nextId(),
+                text: "new note"                
+            }]
         }
     }
 
@@ -57,7 +60,7 @@ class Board extends Component {
         return (
             <div className="board">
                 {this.renderNote()}
-                <button onClick={() => this.addNewNote("New Note")}>+</button>
+                <button onClick={() => this.addNewNote("new note")}>+</button>
             </div>
         )
     }
