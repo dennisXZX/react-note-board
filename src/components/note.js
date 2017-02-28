@@ -56,7 +56,9 @@ class Note extends Component {
         return (
             <div className="note"
                  style={this.style}>
-                <textarea ref="newText" autoFocus></textarea>
+                <textarea ref="newText" 
+                          autoFocus
+                          defaultValue={this.state.text}></textarea>
                 <span>
                     <button onClick={this.save}>SAVE</button>
                 </span>    
