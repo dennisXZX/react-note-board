@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import 'whatwg-fetch';
 
 import Note from './note';
 
@@ -11,10 +12,7 @@ class Board extends Component {
         // initilize an empty notes array
         // each time a user clicks add button, a new note is added to the array
         this.state = {
-            notes: [{
-                id: this.nextId(),
-                text: "new note"                
-            }]
+            notes: []
         }
     }
 
@@ -47,6 +45,24 @@ class Board extends Component {
     clearAllNotes() {
         this.uniqueId = 0;
         this.setState({notes: []});
+    }
+
+    componentWillMount() {
+        if(this.props.count) {
+            const url = `https://baconipsum.com/api/?type=all-meat&sentences=${this.props.count}`;            
+            fetch(url)
+                 .then(results => results.json())
+                 .then(array => array[0])
+                 .then(sentenceCollection => sentenceCollection.split('. '))
+                 .then(sentenceArray => sentenceArray.forEach(
+                     sentence => {
+                         sentence = sentence.substr(0, 40);
+                         this.addNewNote(sentence)
+                        }))
+                 .catch(function(err) {
+                     console.log("Failed to connect to the API", err);
+                 })
+        }
     }
 
     // render all the notes using a map() function 
