@@ -29,7 +29,14 @@ class Note extends Component {
 
     // generate a random color
     randomColor() {
-        return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1,6);
+        const colorPrefix = 'BCDEF'.split('');
+        let color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += colorPrefix[Math.floor(Math.random() * colorPrefix.length)];
+            console.log(color);
+            
+        }
+        return color;
     }    
 
     // generate a random position for a note
