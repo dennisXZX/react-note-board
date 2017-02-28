@@ -26,7 +26,6 @@ div.board {
 div.note {
   height: 150px;
   width: 150px;
-  background-color: yellow;
   margin: 2px 0;
   position: absolute;
   cursor: -webkit-grab;

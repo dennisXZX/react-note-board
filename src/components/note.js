@@ -27,6 +27,11 @@ class Note extends Component {
         this.setState({editing: false});
     }
 
+    // generate a random color
+    randomColor() {
+        return '#' + (0x1000000 + (Math.random()) * 0xffffff).toString(16).substr(1,6);
+    }    
+
     // generate a random position for a note
     randomPosition(x, y, unit) {
         return (x + Math.ceil(Math.random() * (y-x))) + unit;
@@ -36,7 +41,8 @@ class Note extends Component {
     componentWillMount() {        
         this.style = {
             right: this.randomPosition(0, window.innerWidth - 150, "px"),
-            top: this.randomPosition(0, window.innerHeight - 150, "px")
+            top: this.randomPosition(0, window.innerHeight - 150, "px"),
+            backgroundColor: this.randomColor()
         }
     }
 
