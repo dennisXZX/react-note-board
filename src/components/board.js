@@ -73,15 +73,4 @@ class Board extends Component {
     }
 }
 
-// check if the props.count is a type of number and if it's bigger than 100
-// https://facebook.github.io/react/docs/typechecking-with-proptypes.html
-Board.propTypes = {
-    count: React.PropTypes.number,
-    count: function(props, propName){
-        if(props[propName] > 100) {
-            return new Error("Too many notes will slow your computer!");
-        }
-    }
-}
-
 export default Board;

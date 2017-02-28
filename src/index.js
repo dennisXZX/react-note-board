@@ -11,6 +11,6 @@ const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
-    <Board count={10} />
+    <Board />
   </Provider>
   , document.querySelector('.app'));
