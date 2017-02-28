@@ -29,12 +29,10 @@ class Note extends Component {
 
     // generate a random color
     randomColor() {
-        const colorPrefix = 'BCDEF'.split('');
+        const colorLetters = ["B", "C", "D", "E", "F"];
         let color = '#';
         for (var i = 0; i < 6; i++) {
-            color += colorPrefix[Math.floor(Math.random() * colorPrefix.length)];
-            console.log(color);
-            
+            color += colorLetters[Math.floor(Math.random() * colorLetters.length)];
         }
         return color;
     }    
