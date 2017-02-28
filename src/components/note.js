@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import Draggable from 'react-draggable';
 
 class Note extends Component {
     constructor(props) {
@@ -94,8 +95,12 @@ class Note extends Component {
     // }
 
     render() {
-        return (this.state.editing) ? this.renderForm()
-                                    : this.renderNote();
+        return (
+            <Draggable>
+            {(this.state.editing) ? this.renderForm()
+                                    : this.renderNote()}
+            </Draggable>                          
+        )
     }
 }
 
