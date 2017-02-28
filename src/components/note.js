@@ -51,13 +51,20 @@ class Note extends Component {
         }
     }
 
+    // focus and select the current text if the component is in editing mode
+    componentDidUpdate() {
+        if(this.state.editing) {
+            this.refs.newText.focus()
+            this.refs.newText.select()
+        }
+    }
+
     // display a form when editing: true
     renderForm() {
         return (
             <div className="note"
                  style={this.style}>
                 <textarea ref="newText" 
-                          autoFocus
                           defaultValue={this.state.text}></textarea>
                 <span>
                     <button onClick={this.save}>SAVE</button>
