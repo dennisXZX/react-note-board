@@ -43,6 +43,12 @@ class Board extends Component {
         this.setState({notes: newNotes});
     }
 
+    // clear all the notes
+    clearAllNotes() {
+        this.uniqueId = 0;
+        this.setState({notes: []});
+    }
+
     // render all the notes using a map() function 
     // pass removeNote function to each Note component
     renderNote() {
@@ -60,7 +66,8 @@ class Board extends Component {
         return (
             <div className="board">
                 {this.renderNote()}
-                <button onClick={() => this.addNewNote("new note")}>+</button>
+                <button className="addButton" onClick={() => this.addNewNote("new note")}>+</button>
+                <button className="clearButton" onClick={() => this.clearAllNotes()}>C</button>
             </div>
         )
     }
