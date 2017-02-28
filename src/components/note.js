@@ -90,10 +90,6 @@ class Note extends Component {
         );    
     }
 
-    // componentDidMount() {
-    //     this.refs.newText.focus();
-    // }
-
     render() {
         return (
             <Draggable>
