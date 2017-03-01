@@ -9,18 +9,36 @@ class Note extends Component {
         // bind this
         this.edit = this.edit.bind(this);        
         this.save = this.save.bind(this);        
+        this.goToFront = this.goToFront.bind(this);        
+        this.goToBack = this.goToBack.bind(this);        
 
         // initialize the state from props
         this.state = {
             editing: false,
             id: this.props.id,
-            text: this.props.initialText
+            text: this.props.initialText,
+            zIndexClass: "zIndex1"
         }
     }
 
     edit() {
-        this.setState({editing: true});     
+        this.setState({
+            editing: true,
+        });     
+        this.goToFront();
     }
+
+    goToFront() {
+        this.setState({
+            zIndexClass: "zIndex99"
+        });                 
+    }
+
+    goToBack() {
+        this.setState({
+            zIndexClass: "zIndex1"
+        });                 
+    }    
 
     save() {
         let newText = this.refs.newText.value;  // retrieve the value from textarea
@@ -79,7 +97,10 @@ class Note extends Component {
         // deconstructing assignment
         const { id, removeNote } = this.props;
         return (
-            <div className="note"
+            <div 
+                onMouseOver={this.goToFront} 
+                onMouseOut={this.goToBack}
+                className={`note ${this.state.zIndexClass}`}
                  style={this.style}>
                 <p>{this.state.text}</p>
                 <span>
@@ -94,7 +115,7 @@ class Note extends Component {
         return (
             <Draggable>
             {(this.state.editing) ? this.renderForm()
-                                    : this.renderNote()}
+                                  : this.renderNote()}
             </Draggable>                          
         )
     }

@@ -31,6 +31,7 @@ div.note {
   cursor: -webkit-grab;
   box-shadow: 5px 5px 15px 0 rgba(0, 0, 0, .2);
   overflow: hidden;
+  z-index: 1;
 }
 
 div.note:active {
@@ -81,4 +82,12 @@ div.note > textarea {
   top: 70px;
   right: 10px;
   font-size: 2em;
+}
+
+.zIndex1 {
+  z-index: 1;
+}
+
+.zIndex99 {
+  z-index: 99 !important;
 }
