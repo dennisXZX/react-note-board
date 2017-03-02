@@ -10,7 +10,8 @@ class Note extends Component {
         this.edit = this.edit.bind(this);        
         this.save = this.save.bind(this);        
         this.goToFront = this.goToFront.bind(this);        
-        this.goToBack = this.goToBack.bind(this);        
+        this.goToBack = this.goToBack.bind(this); 
+        this.autoSave = this.autoSave.bind(this);       
 
         // initialize the state from props
         this.state = {
@@ -61,6 +62,15 @@ class Note extends Component {
         return (x + Math.ceil(Math.random() * (y-x))) + unit;
     }
 
+    // detect the enter key
+    autoSave (event) {
+        if (event.which == 13 || event.keyCode == 13) {
+            this.save();
+            return false;
+        }
+        return true;     
+    }
+
     // set the style before the component is being rendered
     componentWillMount() {        
         this.style = {
@@ -86,7 +96,8 @@ class Note extends Component {
                  className={`note ${this.state.zIndexClass}`}
                  style={this.style}>
                 <textarea ref="newText" 
-                          defaultValue={this.state.text}></textarea>
+                          defaultValue={this.state.text}
+                          onKeyPress={this.autoSave}></textarea>
                 <span>
                     <button onClick={this.save}>SAVE</button>
                 </span>    
@@ -110,7 +121,7 @@ class Note extends Component {
                     <button onClick={() => removeNote(id)}>X</button>
                 </span>
             </div>
-        );    
+        )
     }
 
     render() {
