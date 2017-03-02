@@ -98,9 +98,7 @@ class Note extends Component {
                 <textarea ref="newText" 
                           defaultValue={this.state.text}
                           onKeyPress={this.autoSave}></textarea>
-                <span>
-                    <button onClick={this.save}>SAVE</button>
-                </span>    
+                <button className="bottomButton" onClick={this.save}>SAVE</button>
             </div>
         )
     }
@@ -116,10 +114,8 @@ class Note extends Component {
                 className={`note ${this.state.zIndexClass}`}
                 style={this.style}>
                 <p>{this.state.text}</p>
-                <span>
-                    <button onClick={this.edit}>EDIT</button>
-                    <button onClick={() => removeNote(id)}>X</button>
-                </span>
+                <button className="bottomButton" onClick={this.edit}>EDIT</button>
+                <button className="topButton" onClick={() => removeNote(id)}>X</button>
             </div>
         )
     }
