@@ -111,6 +111,7 @@ class Note extends Component {
             <div 
                 onMouseOver={this.goToFront} 
                 onMouseOut={this.goToBack}
+                onDoubleClick={this.edit}
                 className={`note ${this.state.zIndexClass}`}
                 style={this.style}>
                 <p>{this.state.text}</p>
