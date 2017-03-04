@@ -35,11 +35,15 @@ div.note:active {
 
 div.note p {
   height: 120px;
-  overflow-y: scroll;
   margin: 0;
   font-size: 22px;
   padding: 5px 5px 5px 10px;
   font-family: "Shadows Into Light", Arial;
+  overflow-y: hidden;
+}
+
+div.note p:hover {
+  overflow-y: scroll
 }
 
 div.note button {
@@ -53,7 +57,16 @@ div.note:hover button {
   opacity: 1;
 }
 
+div.note > .time {
+  font-family: "Shadows Into Light", Arial;
+  display: block;
+  text-align: left;
+  padding-left: 10px;
+  padding-top: 3px;
+}
+
 div.note > .topButton {
+  font-size: 70%;
   top: 2px;
   right: 2px;
 }

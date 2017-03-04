@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Draggable from 'react-draggable';
+import moment from 'moment';
 
 class Note extends Component {
     constructor(props) {
@@ -18,6 +19,7 @@ class Note extends Component {
             editing: false,
             id: this.props.id,
             text: this.props.initialText,
+            time: this.props.time,
             zIndexClass: "zIndex1"
         }
     }
@@ -114,7 +116,10 @@ class Note extends Component {
                 className={`note ${this.state.zIndexClass}`}
                 style={this.style}>
                 <p>{this.state.text}</p>
-                <button className="topButton" onClick={() => removeNote(id)}>X</button>
+                <button className="topButton" 
+                    onClick={() => this.props.removeNote(this.props.id)}
+                >X</button>
+                <span className="time">{moment(this.props.time).format("DD/MMM hh:mm")}</span>
             </div>
         )
     }

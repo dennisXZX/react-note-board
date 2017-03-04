@@ -29,7 +29,8 @@ class Board extends Component {
             ...this.state.notes,
             {
                 id: this.nextId(),
-                text: text
+                text: text,
+                time: new Date()
             }
         ]
         this.setState({notes});
@@ -73,6 +74,7 @@ class Board extends Component {
                 return <Note key={note.id} 
                              id={note.id}
                              initialText={note.text}
+                             time={note.time}
                              removeNote={this.removeNote}></Note>
             })
         )
