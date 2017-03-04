@@ -20,7 +20,7 @@ div.board {
 }
 
 div.note {
-  height: 150px;
+  min-height: 150px;
   width: 150px;
   margin: 2px 0;
   position: absolute;
@@ -34,16 +34,10 @@ div.note:active {
 }
 
 div.note p {
-  height: 120px;
   margin: 0;
   font-size: 22px;
   padding: 5px 5px 5px 10px;
   font-family: "Shadows Into Light", Arial;
-  overflow-y: hidden;
-}
-
-div.note p:hover {
-  overflow-y: scroll
 }
 
 div.note button {
@@ -63,6 +57,7 @@ div.note > .time {
   text-align: left;
   padding-left: 10px;
   padding-top: 3px;
+  padding-bottom: 10px;
 }
 
 div.note > .topButton {
@@ -73,7 +68,7 @@ div.note > .topButton {
 
 div.note > textarea {
   width: 99%;
-  height: 70%;
+  height: 150px;
   background: rgba(255, 255, 255, .5);
   resize: none;
 }
