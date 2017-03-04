@@ -34,6 +34,8 @@ div.note:active {
 }
 
 div.note p {
+  height: 120px;
+  overflow-y: scroll;
   margin: 0;
   font-size: 22px;
   padding: 5px 5px 5px 10px;
@@ -49,11 +51,6 @@ div.note button {
 
 div.note:hover button {
   opacity: 1;
-}
-
-div.note > .bottomButton {
-  bottom: 2px;
-  right: 2px;
 }
 
 div.note > .topButton {
