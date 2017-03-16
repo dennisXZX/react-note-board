@@ -1,136 +1,141 @@
-import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import Draggable from 'react-draggable';
-import moment from 'moment';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
+import Draggable from 'react-draggable';
+import moment from 'moment';
 
-class Note extends Component {
-    constructor(props) {
-        super(props);
+class Note extends Component {
+    constructor(props) {
+        super(props);
 
-        // bind this
-        this.edit = this.edit.bind(this);        
-        this.save = this.save.bind(this);        
-        this.goToFront = this.goToFront.bind(this);        
-        this.goToBack = this.goToBack.bind(this); 
-        this.autoSave = this.autoSave.bind(this);       
+        // bind this
+        this.edit = this.edit.bind(this);        
+        this.save = this.save.bind(this);        
+        this.goToFront = this.goToFront.bind(this);        
+        this.goToBack = this.goToBack.bind(this); 
+        this.autoSave = this.autoSave.bind(this);       
 
-        // initialize the state from props
-        this.state = {
-            editing: false,
-            id: this.props.id,
-            text: this.props.initialText,
-            time: this.props.time,
-            zIndexClass: "zIndex1"
-        }
-    }
+        // initialize the state from props
+        this.state = {
+            editing: false,
+            id: this.props.id,
+            text: this.props.initialText,
+            time: this.props.time,
+            zIndexClass: "zIndex1"
+        }
+    }
 
-    edit() {
-        this.setState({
-            editing: true,
-        });
-        this.goToFront();
-    }
+    edit() {
+        this.setState({
+            editing: true,
+        });
+        this.goToFront();
+    }
 
-    goToFront() {
-        this.setState({
-            zIndexClass: "zIndex99"
-        });                 
-    }
+    goToFront() {
+        this.setState({
+            zIndexClass: "zIndex99"
+        });                 
+    }
 
-    goToBack() {
-        this.setState({
-            zIndexClass: "zIndex1"
-        });                 
-    }    
+    goToBack() {
+        this.setState({
+            zIndexClass: "zIndex1"
+        });                 
+    }    
 
-    save() {
-        let newText = this.refs.newText.value;  // retrieve the value from textarea
-        this.setState({text: newText})
-        this.setState({editing: false});
-    }
+    save() {
+        let newText = this.refs.newText.value;  // retrieve the value from textarea
+        this.setState({text: newText});
+        this.setState({editing: false});
+    }
 
-    // generate a random color
-    randomColor() {
-        const colorLetters = ["B", "C", "D", "E", "F"];
-        let color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += colorLetters[Math.floor(Math.random() * colorLetters.length)];
-        }
-        return color;
-    }    
+    // generate a color
+    randomColor() {
+        const colorLetters = ["B", "C", "D", "E", "F"];
+        let color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += colorLetters[Math.floor(Math.random() * colorLetters.length)];
+        }
+        return color;
+    }    
 
-    // generate a random position for a note
-    randomPosition(x, y, unit) {
-        return (x + Math.ceil(Math.random() * (y-x))) + unit;
-    }
+    // generate a random position for a note
+    randomPosition(x, y, unit) {
+        return (x + Math.ceil(Math.random() * (y-x))) + unit;
+    }
 
-    // detect the enter key
-    autoSave (event) {
-        if (event.which == 13 || event.keyCode == 13) {
-            this.save();
-            return false;
-        }
-        return true;     
-    }
+    // detect the enter key
+    autoSave (event) {
+        if (event.which == 13 || event.keyCode == 13) {
+            this.save();
+            return false;
+        }
+        return true;     
+    }
 
-    // set the style before the component is being rendered
-    componentWillMount() {        
-        this.style = {
-            right: this.randomPosition(0, window.innerWidth - 150, "px"),
-            top: this.randomPosition(0, window.innerHeight - 150, "px"),
-            backgroundColor: this.randomColor()
-        }
-    }
+    // set the style before the component is being rendered
+    componentWillMount() {        
+        this.style = {
+            left: this.props.position.x+'px',
+            top: this.props.position.y+'px',
+            backgroundColor: this.randomColor()
+        }
+    }
 
-    // focus and select the current text if the component is in editing mode
-    componentDidUpdate() {
-        if(this.state.editing) {
-            this.refs.newText.focus()
-        }
-    }
+    // focus and select the current text if the component is in editing mode
+    componentDidUpdate() {
+        if(this.state.editing) {
+            this.refs.newText.focus()
+        }
+    }
 
-    // display a form when editing: true
-    renderForm() {
-        return (
-            <div onMouseOver={this.goToFront} 
-                 onMouseOut={this.goToBack}
-                 className={`note ${this.state.zIndexClass}`}
-                 style={this.style}>
-                <textarea ref="newText" 
-                          defaultValue={this.state.text}
-                          onKeyPress={this.autoSave}></textarea>
-            </div>
-        )
-    }
+    // display a form when editing: true
+    renderForm() {
+        return (
+            <div onMouseOver={this.goToFront} 
+                 onMouseOut={this.goToBack}
+                 className={`note ${this.state.zIndexClass}`}
+                 style={
+          {left: this.props.note.position.x+'px',
+            top: this.props.note.position.y+'px',
+            backgroundColor: this.randomColor()}}>
+                <textarea ref="newText" 
+                          defaultValue={this.state.text}
+                          onKeyPress={this.autoSave}></textarea>
+            </div>
+        )
+    }
 
-    // display a note when editing: false
-    renderNote() {
-        // deconstructing assignment
-        const { id, removeNote } = this.props;
-        return (
-            <div 
-                onMouseOver={this.goToFront} 
-                onMouseOut={this.goToBack}
-                onDoubleClick={this.edit}
-                className={`note ${this.state.zIndexClass}`}
-                style={this.style}>
-                <p>{this.state.text}</p>
-                <button className="topButton" 
-                    onClick={() => this.props.removeNote(this.props.id)}
-                >X</button>
-                <span className="time">{moment(this.props.time).format("DD/MMM hh:mm")}</span>
-            </div>
-        )
-    }
+    // display a note when editing: false
+    renderNote() {
+        // deconstructing assignment
+        const { id, removeNote } = this.props;
+        return (
+            <div 
+                onMouseOver={this.goToFront} 
+                onMouseOut={this.goToBack}
+                onDoubleClick={this.edit}
+                className={`note ${this.state.zIndexClass}`}
+                style= {{ left: this.props.position.x+'px',
+            top: this.props.position.y+'px',
+            backgroundColor: this.randomColor()}}>
+                <p>{this.state.text}</p>
+                <button className="topButton" 
+                    onClick={() => this.props.removeNote(this.props.id)}
+                >X</button>
+                <span className="time">{moment(this.props.time).format("DD/MMM hh:mm")}</span>
+            </div>
+        )
+    }
 
-    render() {
-        return (
-            <Draggable>
-            {(this.state.editing) ? this.renderForm()
-                                  : this.renderNote()}
-            </Draggable>                          
-        )
-    }
+    render() {
+        return (
+            <Draggable>
+            {(this.state.editing) ? this.renderForm()
+                                  : this.renderNote()}
+            </Draggable>
+        )
+    }
 }
 
-export default Note;
+export default Note;

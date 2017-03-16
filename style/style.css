@@ -89,6 +89,14 @@ div.note > textarea {
   font-size: 2em;
 }
 
+.board > .queueButton {
+  position: fixed;
+  padding: 0 11px;
+  top: 130px;
+  right: 10px;
+  font-size: 2em;
+}
+
 .zIndex1 {
   z-index: 1;
 }
