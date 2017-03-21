@@ -20,6 +20,8 @@ class Note extends Component {
             id: this.props.id,
             text: this.props.initialText,
             time: this.props.time,
+			x: this.props.x,
+			y: this.props.y,
             zIndexClass: "zIndex1"
         }
     }
@@ -49,21 +51,6 @@ class Note extends Component {
         this.setState({editing: false});
     }
 
-    // generate a color
-    randomColor() {
-        const colorLetters = ["B", "C", "D", "E", "F"];
-        let color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += colorLetters[Math.floor(Math.random() * colorLetters.length)];
-        }
-        return color;
-    }    
-
-    // generate a random position for a note
-    randomPosition(x, y, unit) {
-        return (x + Math.ceil(Math.random() * (y-x))) + unit;
-    }
-
     // detect the enter key
     autoSave (event) {
         if (event.which == 13 || event.keyCode == 13) {
@@ -71,15 +58,6 @@ class Note extends Component {
             return false;
         }
         return true;     
-    }
-
-    // set the style before the component is being rendered
-    componentWillMount() {        
-        this.style = {
-            left: this.props.position.x+'px',
-            top: this.props.position.y+'px',
-            backgroundColor: this.randomColor()
-        }
     }
 
     // focus and select the current text if the component is in editing mode
@@ -94,11 +72,10 @@ class Note extends Component {
         return (
             <div onMouseOver={this.goToFront} 
                  onMouseOut={this.goToBack}
-                 className={`note ${this.state.zIndexClass}`}
-                 style={
-          {left: this.props.note.position.x+'px',
-            top: this.props.note.position.y+'px',
-            backgroundColor: this.randomColor()}}>
+                 className={`${this.state.zIndexClass} note`}
+				 style={{left: this.props.x,
+						 top: this.props.y,
+						 backgroundColor: this.props.backgroundColor}}>
                 <textarea ref="newText" 
                           defaultValue={this.state.text}
                           onKeyPress={this.autoSave}></textarea>
@@ -106,22 +83,20 @@ class Note extends Component {
         )
     }
 
-    // display a note when editing: false
+    // display a note when editing: false 
     renderNote() {
-        // deconstructing assignment
-        const { id, removeNote } = this.props;
         return (
             <div 
                 onMouseOver={this.goToFront} 
                 onMouseOut={this.goToBack}
                 onDoubleClick={this.edit}
-                className={`note ${this.state.zIndexClass}`}
-                style= {{ left: this.props.position.x+'px',
-            top: this.props.position.y+'px',
-            backgroundColor: this.randomColor()}}>
+                className={`${this.state.zIndexClass} note`}
+                style={{left: this.props.x, 
+						top: this.props.y,
+						backgroundColor: this.props.backgroundColor}}>
                 <p>{this.state.text}</p>
                 <button className="topButton" 
-                    onClick={() => this.props.removeNote(this.props.id)}
+                    	onClick={() => this.props.removeNote(this.props.id)}
                 >X</button>
                 <span className="time">{moment(this.props.time).format("DD/MMM hh:mm")}</span>
             </div>
@@ -130,10 +105,8 @@ class Note extends Component {
 
     render() {
         return (
-            <Draggable>
-            {(this.state.editing) ? this.renderForm()
-                                  : this.renderNote()}
-            </Draggable>
+            <Draggable>{(this.state.editing) ? this.renderForm()
+                                  			 : this.renderNote()}</Draggable>
         )
     }
 }

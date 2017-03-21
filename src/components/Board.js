@@ -8,12 +8,29 @@ class Board extends Component {
         super(props);
 
         this.removeNote = this.removeNote.bind(this);
+        this.randomPosition = this.randomPosition.bind(this);
+        this.randomColor = this.randomColor.bind(this);
 
         // initilize an empty notes array
         // each time a user clicks add button, a new note is added to the array
         this.state = {
             notes: []
         }
+    }
+
+    // generate a random position for a note
+    randomPosition(x, y, unit) {
+        return (x + Math.ceil(Math.random() * (y-x))) + unit;
+    }
+
+    // generate a color
+    randomColor() {
+        const colorLetters = ["B", "C", "D", "E", "F"];
+        let color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += colorLetters[Math.floor(Math.random() * colorLetters.length)];
+        }
+        return color;
     }
 
     // generate a unique id for each note
@@ -25,22 +42,18 @@ class Board extends Component {
     // use spread operator to copy all existing note objects
     // then create a new note object and add it to the notes array
     addNewNote(initialText) {
-        const notes = [
+        const newNotes = [
             ...this.state.notes,
             {
                 id: this.nextId(),
                 text: initialText,
                 time: new Date(),
-                position: {
-                    x: 1,
-                    y: 1
-                }
+                backgroundColor: this.randomColor(),
+                x: this.randomPosition(0, window.innerWidth - 150, "px"),
+                y: this.randomPosition(0, window.innerHeight - 150, "px")
             }
         ]
-console.log("addNewNote");
-
-        this.setState({notes: notes});
-console.log("addNewNote done");
+        this.setState({notes: newNotes});
     }
 
     // remove note by filtering the notes array
@@ -56,28 +69,35 @@ console.log("addNewNote done");
     }
 
     // queue all the notes
-//     queueAllNotes() {
-//         let colNums = Math.ceil(window.innerWidth / 300);
-//         // let newNotes  = Object.assign([], this.state.notes);
-//         let newNotes = this.state.notes.map((note, index) => {
-//             note.position = {x: (index % colNums) * 210, 
-//                              y: 200 * Math.floor(index / colNums)};
-//             return note;
-//         })
-
-//         this.setState({
-//             notes: newNotes
-//         })
-//     
-//     }
+    queueAllNotes() {    
+        let colNums = Math.ceil(window.innerWidth / 250);
+        let newNotes = this.state.notes.map((note, index) => {
+            note.x = (index % colNums) * 210 + "px", 
+            note.y = 200 * Math.floor(index / colNums) + "px";
+            return note;
+        })
+        console.log(newNotes);
+        
+        this.setState({
+            notes: newNotes
+        })
+    
+    }
 
     componentWillMount() {
         if(this.props.count) {
             const url = `https://baconipsum.com/api/?type=all-meat&sentences=${this.props.count}`;            
+            
+            // helper function to debug in fetch library
+            const logHelper = (data) => {
+                console.log(data);
+                return data;
+            }
+            
             fetch(url)
                  .then(results => results.json())
                  .then(array => array[0])
-                 .then(sentenceCollection => sentenceCollection.split('. '))
+                 .then(sentenceCollection => sentenceCollection.split('. '))
                  .then(sentenceArray => sentenceArray.forEach(
                      sentence => {							
 						sentence = sentence.substr(0, 40);
@@ -97,7 +117,9 @@ console.log("addNewNote done");
                 return <Note key={note.id} 
                              id={note.id}
                              initialText={note.text}
-                             position={ note.position }
+                             x={note.x}
+                             y={note.y}
+                             backgroundColor={note.backgroundColor}
                              time={note.time}
                              removeNote={this.removeNote}></Note>
             })
